@@ -1,0 +1,29 @@
+// Game1.idl : type library source for Game1.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (Game1.tlb).
+
+[ uuid(4665d9e0-81c0-4cda-9e0e-ac0aeeab01c9), version(1.0) ]
+library Game1
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  Primary dispatch interface for CGame1Doc
+
+	[ uuid(cde89a96-0efb-4c4c-b632-8c57db574e3a) ]
+	dispinterface IGame1
+	{
+		properties:
+
+		methods:
+	};
+
+	//  Class information for CGame1Doc
+
+	[ uuid(ee6f090a-aa8a-47c3-a778-9135ef1e9690) ]
+	coclass CGame1Doc
+	{
+		[default] dispinterface IGame1;
+	};
+};
