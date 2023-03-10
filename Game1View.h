@@ -24,13 +24,14 @@ public:
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	//void OnLButtonDown(UINT nFlags, CPoint point);
 protected:
 
 // Implementation
 public:
 	virtual ~CGame1View();
 	void ResizeWindow();
-	void OnLButtonDown(UINT nFlags, CPoint point);
+	
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -44,6 +45,7 @@ protected:
 public:
 	void UpdateLevelColorCount(int numColor, CCmdUI* pCmdUi);
 	void SetColorCount(int numColors);
+	//void SetupBlock(bool setup);
 	/*Para cambiar la dificultad*/
 	afx_msg void OnLevel3level();
 	afx_msg void OnLevel4level();
@@ -56,6 +58,12 @@ public:
 	afx_msg void OnUpdateLevel5(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateLevel6color(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateLevel7colors(CCmdUI* pCmdUI);
+	/*Establecer los numeros*/
+	//afx_msg void OnSetupBlockcount();
+	//afx_msg void OnSetupBlocksize();
+	afx_msg void OnSetupBlocksize();
+	afx_msg void OnSetupBlockcount();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // debug version in Game1View.cpp

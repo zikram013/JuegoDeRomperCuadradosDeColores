@@ -163,7 +163,7 @@ void CSameGameBoard::CompactBoard(void)
 
 int CSameGameBoard::DeleteNeighBorBlock(int row, int col, int color, Direction direction)
 {
-	int nCount = 1;
+	
 	//Comprobamos si esta en el cuadro
 	if (row < 0 || row >= m_nRows || col < 0 || col >= m_nColumns) {
 		return 0;
@@ -172,6 +172,8 @@ int CSameGameBoard::DeleteNeighBorBlock(int row, int col, int color, Direction d
 	if (m_arrBoard[row][col] != color) {
 		return 0;
 	}
+	int nCount = 1;
+	m_arrBoard[row][col] = 0;
 	//Si no puede ir hacia arriba
 	if (direction != DIRECCTION_UP) {
 		nCount += DeleteNeighBorBlock(row - 1, col, color, DIRECTION_DOWN);

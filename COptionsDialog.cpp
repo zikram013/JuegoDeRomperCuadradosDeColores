@@ -11,14 +11,12 @@
 
 IMPLEMENT_DYNAMIC(COptionsDialog, CDialog)
 
-COptionsDialog::COptionsDialog(bool bRowColumn,CWnd* pParent /*=nullptr*/)
+COptionsDialog::COptionsDialog(bool bRowColumn, CWnd* pParent /*=nullptr*/)
 	: CDialog(IDD_DIALOG_OPTIONS, pParent)
 	, m_nValue1(0)
 	, m_nValue2(0)
 	, m_bRowColumn(bRowColumn)
-{
-
-}
+{}
 
 COptionsDialog::~COptionsDialog()
 {
@@ -50,7 +48,26 @@ void COptionsDialog::OnBnClickedButtonDefaults()
 		m_nValue1 = m_nValue2 = 15; //Tablero de 15 * 15
 	}
 	else {
-		m_nValue1 =
+		m_nValue1 = m_nValue2 = 35;
 	}
+	UpdateData(false);
 
+}
+
+
+
+BOOL COptionsDialog::OnInitDialog() {
+	CDialog::OnInitDialog();
+	if (m_bRowColumn) {
+		//Actualizacion del titulo del dialogo
+		SetWindowText(_T("Update Block Count"));
+		m_ctrlStaticText1.SetWindowText(_T("Rows"));
+		m_ctrlStaticText2.SetWindowText(_T("Columns"));
+	}
+	else{
+		SetWindowText(_T("Update Block Size"));
+		m_ctrlStaticText1.SetWindowText(_T("Block Width"));
+		m_ctrlStaticText2.SetWindowText(_T("Block Height"));
+	}
+	return TRUE;
 }

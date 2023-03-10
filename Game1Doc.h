@@ -23,6 +23,7 @@ public:
 public:
 	/*Funciones para acceder al tablero de juego*/
 	COLORREF GetBoardSpace(int row, int col) { return m_board.GetBoardSpace(row, col); }
+	void DeleteBoard(void) { m_board.DeleteBoard(); }
 	void SetupBoard(void) { m_board.SetupBoard(); }
 	int GetWidth(void) { return m_board.GetWidth(); }
 	int GetHeight(void) { return m_board.GetHeith(); }

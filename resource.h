@@ -4,9 +4,11 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
+#define IDC_POINTER                     104
 #define IDR_MAINFRAME                   128
 #define IDR_Game1TYPE                   130
 #define IDD_DIALOG_OPTIONS              310
+#define WM_LBUTTONDOWN                  0x0201
 #define IDC_BUTTON_DEFAULTS             1000
 #define IDC_EDIT_VALUE1                 1001
 #define IDC_EDIT_VALUE2                 1002

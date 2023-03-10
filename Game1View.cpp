@@ -12,6 +12,7 @@
 
 #include "Game1Doc.h"
 #include "Game1View.h"
+#include "COptionsDialog.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,6 +34,9 @@ BEGIN_MESSAGE_MAP(CGame1View, CView)
 	ON_UPDATE_COMMAND_UI(ID_LEVEL_5, &CGame1View::OnUpdateLevel5)
 	ON_UPDATE_COMMAND_UI(ID_LEVEL_6COLOR, &CGame1View::OnUpdateLevel6color)
 	ON_UPDATE_COMMAND_UI(ID_LEVEL_7COLORS, &CGame1View::OnUpdateLevel7colors)
+	ON_COMMAND(ID_SETUP_BLOCKSIZE, &CGame1View::OnSetupBlocksize)
+	ON_COMMAND(ID_SETUP_BLOCKCOUNT, &CGame1View::OnSetupBlockcount)
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CGame1View construction/destruction
@@ -137,30 +141,30 @@ void CGame1View::ResizeWindow() {
 
 }
 
-void CGame1View::OnLButtonDown(UINT nFlags, CPoint point) {
-	CView::OnLButtonDblClk(nFlags, point);
-	CGame1Doc* pDoc = GetDocument();
-	if (!pDoc) {
-		return;
-	}
-	//Obtener donde hemos pinchado
-	int row = point.y / pDoc->GetHeight();
-	int col = point.x / pDoc->GetWidth();
-	//Borramos los bloques de la vista
-	int count = pDoc->DeleteBlocks(row,col);
-	if (count > 0) {
-		Invalidate();
-		UpdateWindow();
-		if (pDoc->IsGameOver()) {
-			int remaining = pDoc->GetRemainingCoutn();
-			CString message;
-			message.Format(_T("No more moves left\nBlocks remaining: %d"),remaining);
-			MessageBox(message, _T("Game Over"), MB_OK || MB_ICONINFORMATION);
-		}
-	}	
-	
-	//CView::OnLButtonDown(nFlags, point);
-}
+//void CGame1View::OnLButtonDown(UINT nFlags, CPoint point) {
+//	CView::OnLButtonDblClk(nFlags, point);
+//	CGame1Doc* pDoc = GetDocument();
+//	if (!pDoc) {
+//		return;
+//	}
+//	//Obtener donde hemos pinchado
+//	int row = point.y / pDoc->GetHeight();
+//	int col = point.x / pDoc->GetWidth();
+//	//Borramos los bloques de la vista
+//	int count = pDoc->DeleteBlocks(row,col);
+//	if (count > 0) {
+//		Invalidate();
+//		UpdateWindow();
+//		if (pDoc->IsGameOver()) {
+//			int remaining = pDoc->GetRemainingCoutn();
+//			CString message;
+//			message.Format(_T("No more moves left\nBlocks remaining: %d"),remaining);
+//			MessageBox(message, _T("Game Over"), MB_OK || MB_ICONINFORMATION);
+//		}
+//	}	
+//	
+//	//CView::OnLButtonDown(nFlags, point);
+//}
 // CGame1View message handlers
 
 void CGame1View::SetColorCount(int numColors) 
@@ -251,4 +255,77 @@ void CGame1View::OnUpdateLevel7colors(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	UpdateLevelColorCount(7, pCmdUI);
+}
+
+
+//El motivo por el que en estos dos metodos no se refactoriza su contenido es que determinadas partes clave son distintas por lo que simplifica mas
+//tener cada metodo personalizado que refactorizarlo.
+void CGame1View::OnSetupBlocksize()
+{
+	// TODO: Add your command handler code here
+	CGame1Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc) {
+		return;
+	}
+	COptionsDialog dlg(false, this);
+	dlg.m_nValue1 = pDoc->GetWidth();
+	dlg.m_nValue2 = pDoc->GetHeight();
+	if (dlg.DoModal() == IDOK) {
+		pDoc->SetWidth(dlg.m_nValue1);
+		pDoc->SetHeigth(dlg.m_nValue2);
+		pDoc->SetupBoard();
+		ResizeWindow();
+	}
+}
+
+
+void CGame1View::OnSetupBlockcount()
+{
+	// TODO: Add your command handler code here
+	CGame1Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc) {
+		return;
+	}
+	COptionsDialog dlg(true, this);
+	dlg.m_nValue1 = pDoc->GetRows();
+	dlg.m_nValue2 = pDoc->GetColumns();
+	if (dlg.DoModal() == IDOK) {
+		pDoc->DeleteBoard();
+		pDoc->SetRows(dlg.m_nValue1);
+		pDoc->SetColumns(dlg.m_nValue2);
+		pDoc->SetupBoard();
+		ResizeWindow();
+	}
+}
+
+
+
+
+
+void CGame1View::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CView::OnLButtonDown(nFlags, point);
+	CGame1Doc* pDoc = GetDocument();
+		if (!pDoc) {
+			return;
+		}
+		//Obtener donde hemos pinchado
+		int row = point.y / pDoc->GetHeight();
+		int col = point.x / pDoc->GetWidth();
+		//Borramos los bloques de la vista
+		int count = pDoc->DeleteBlocks(row,col);
+		if (count > 0) {
+			Invalidate();
+			UpdateWindow();
+			if (pDoc->IsGameOver()) {
+				int remaining = pDoc->GetRemainingCoutn();
+				CString message;
+				message.Format(_T("No more moves left\nBlocks remaining: %d"),remaining);
+				MessageBox(message, _T("Game Over"), MB_OK || MB_ICONINFORMATION);
+			}
+		}	
 }

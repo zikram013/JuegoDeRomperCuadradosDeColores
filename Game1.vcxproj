@@ -224,6 +224,7 @@
     <Midl Include="Game1.idl" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="arrow.cur" />
     <None Include="Game1.reg" />
     <None Include="res\Game1.rc2" />
   </ItemGroup>
